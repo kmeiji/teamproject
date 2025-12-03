@@ -56,3 +56,28 @@ def sepia(img_path, output_path):
     except Exception as e:
         print(f"[Error] 오류 발생: {e}")
         return None
+    
+
+def resize(img_path, output_path, width, height):
+    """
+    이미지 크기를 조절하여 저장하는 함수
+    :param width: 변경할 가로 길이 (px)
+    :param height: 변경할 세로 길이 (px)
+    """
+    try:
+        if not os.path.exists(img_path):
+            print(f"[Error] 파일을 찾을 수 없습니다: {img_path}")
+            return None
+
+        img = Image.open(img_path)
+        
+        # 크기 조절 (Resampling.LANCZOS가 화질이 좋습니다)
+        resized_img = img.resize((width, height), Image.Resampling.LANCZOS)
+        
+        resized_img.save(output_path)
+        print(f"[Success] 크기 조절 완료 ({width}x{height}): {output_path}")
+        return output_path
+        
+    except Exception as e:
+        print(f"[Error] 오류 발생: {e}")
+        return None
