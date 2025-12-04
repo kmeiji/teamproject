@@ -1,1 +1,1 @@
-from .proc import grayscale, sepia, resize, mosaic, sketch
+from .proc import grayscale, sepia, resize, mosaic, sketch, enhance_image, watermark
