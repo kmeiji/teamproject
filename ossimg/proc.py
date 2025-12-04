@@ -1,4 +1,4 @@
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageEnhance, ImageDraw, ImageFont
 import os
 
 def grayscale(img_path, output_path):
@@ -137,6 +137,87 @@ def sketch(img_path, output_path):
         
         sketch_img.save(output_path)
         print(f"[Success] 스케치 효과 적용 완료: {output_path}")
+        return output_path
+        
+    except Exception as e:
+        print(f"[Error] 오류 발생: {e}")
+        return None
+    
+
+def enhance_image(img_path, output_path, brightness=1.0, contrast=1.0):
+    """
+    이미지의 밝기와 대비를 조절하는 함수 (AI 데이터 증강용)
+    :param brightness: 1.0이 원본, 0.5는 어둡게, 1.5는 밝게
+    :param contrast: 1.0이 원본, 0.5는 흐리게, 1.5는 뚜렷하게
+    """
+    try:
+        if not os.path.exists(img_path):
+            print(f"[Error] 파일을 찾을 수 없습니다: {img_path}")
+            return None
+
+        img = Image.open(img_path)
+        
+        # 1. 밝기 조절
+        if brightness != 1.0:
+            enhancer = ImageEnhance.Brightness(img)
+            img = enhancer.enhance(brightness)
+            
+        # 2. 대비 조절
+        if contrast != 1.0:
+            enhancer = ImageEnhance.Contrast(img)
+            img = enhancer.enhance(contrast)
+            
+        img.save(output_path)
+        print(f"[Success] 밝기/대비 조절 완료: {output_path}")
+        return output_path
+        
+    except Exception as e:
+        print(f"[Error] 오류 발생: {e}")
+        return None
+
+
+def watermark(img_path, output_path, text="OSS Project", opacity=128):
+    """
+    이미지 우측 하단에 텍스트 워터마크를 넣는 함수
+    :param text: 넣을 글자
+    :param opacity: 투명도 (0~255)
+    """
+    try:
+        if not os.path.exists(img_path):
+            print(f"[Error] 파일을 찾을 수 없습니다: {img_path}")
+            return None
+
+        img = Image.open(img_path).convert("RGBA")
+        
+        # 투명한 레이어 생성
+        txt_layer = Image.new("RGBA", img.size, (255, 255, 255, 0))
+        draw = ImageDraw.Draw(txt_layer)
+        
+        # 폰트 설정 (기본 폰트 사용)
+        try:
+            font = ImageFont.truetype("arial.ttf", size=int(img.width / 20))
+        except:
+            font = ImageFont.load_default() # 폰트 없으면 기본값
+
+        # 글자 크기 계산 (textbbox 사용 - 최신 Pillow 기준)
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+        
+        # 우측 하단 좌표 계산
+        x = img.width - text_width - 20
+        y = img.height - text_height - 20
+        
+        # 글자 쓰기 (흰색, 반투명)
+        draw.text((x, y), text, fill=(255, 255, 255, opacity), font=font)
+        
+        # 원본과 합치기
+        watermarked = Image.alpha_composite(img, txt_layer)
+        
+        # 다시 JPG로 저장하려면 RGB로 변환 필요
+        watermarked.convert("RGB").save(output_path)
+        
+        print(f"[Success] 워터마크 추가 완료: {output_path}")
         return output_path
         
     except Exception as e:
