@@ -118,3 +118,16 @@ def watermark(img_path, output_path, text="OSS", opacity=128):
     except Exception as e:
         print(f"[Error] 오류 발생: {e}")
         return None
+        def rotate(img_path, output_path, angle):
+    """이미지를 각도로 회전"""
+    try:
+        if not os.path.exists(img_path): 
+            return None
+        img = Image.open(img_path).convert('RGB')
+        rotated = img.rotate(angle, expand=True)
+        rotated.save(output_path)
+        print(f"[Success] 회전 완료: {output_path}")
+        return output_path
+    except Exception as e:
+        print(f"[Error] 오류 발생: {e}")
+        return None
