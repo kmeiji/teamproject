@@ -1,0 +1,59 @@
+import unittest
+import os
+from PIL import Image
+
+from ossimg import grayscale, sepia, resize, mosaic, sketch, enhance_image, watermark
+
+class TestAllFilters(unittest.TestCase):
+
+    def setUp(self):
+        # 테스트용 가짜 이미지 생성 (빨간색 20x20)
+        self.test_img = "test_dummy.jpg"
+        img = Image.new("RGB", (20, 20), "red")
+        img.save(self.test_img)
+
+    def tearDown(self):
+        # 테스트 후 생성된 파일들 삭제
+        if os.path.exists(self.test_img):
+            os.remove(self.test_img)
+
+        for f in [
+            "result_gray.jpg", "result_sepia.jpg", "result_resize.jpg",
+            "result_mosaic.jpg", "result_sketch.jpg", "result_enhanced.jpg",
+            "result_watermark.jpg"
+        ]:
+            if os.path.exists(f):
+                os.remove(f)
+
+    def test_grayscale(self):
+        out = grayscale(self.test_img, "result_gray.jpg")
+        self.assertTrue(os.path.exists("result_gray.jpg"))
+
+    def test_sepia(self):
+        out = sepia(self.test_img, "result_sepia.jpg")
+        self.assertTrue(os.path.exists("result_sepia.jpg"))
+
+    def test_resize(self):
+        resize(self.test_img, "result_resize.jpg", 10, 10)
+        img = Image.open("result_resize.jpg")
+        self.assertEqual(img.size, (10, 10))
+        img.close()
+
+    def test_mosaic(self):
+        mosaic(self.test_img, "result_mosaic.jpg", ratio=0.1)
+        self.assertTrue(os.path.exists("result_mosaic.jpg"))
+
+    def test_sketch(self):
+        sketch(self.test_img, "result_sketch.jpg")
+        self.assertTrue(os.path.exists("result_sketch.jpg"))
+
+    def test_enhance(self):
+        enhance_image(self.test_img, "result_enhanced.jpg", brightness=1.5, contrast=1.5)
+        self.assertTrue(os.path.exists("result_enhanced.jpg"))
+
+    def test_watermark(self):
+        watermark(self.test_img, "result_watermark.jpg", text="OSS", opacity=128)
+        self.assertTrue(os.path.exists("result_watermark.jpg"))
+
+if __name__ == "__main__":
+    unittest.main()
