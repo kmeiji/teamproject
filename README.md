@@ -20,6 +20,7 @@
 | **Resize** | 이미지 화질 저하를 최소화하며 크기를 조절합니다. | LANCZOS 알고리즘 |
 | **Mosaic** | 개인정보 보호를 위해 이미지를 모자이크 처리합니다. | Privacy 보호 |
 | **Sketch** | 이미지의 윤곽선을 추출하여 스케치 효과를 냅니다. | Edge Detection |
+| **Rotate** | 이미지를 원하는 각도로 회전합니다. | Image Rotation |
 
 ---
 
