@@ -1,5 +1,5 @@
 from PIL import Image
-from ossimg.rotate import rotate
+from ossimg.proc import rotate
 
 def test_rotate_90():
     img = Image.new("RGB", (100, 50))
