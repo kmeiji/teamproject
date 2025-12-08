@@ -70,6 +70,18 @@ mosaic("face.jpg", "face_hidden.jpg", pixel_size=20)
 
 
 
+✔️ 사용 예
+from ossimg.proc import sepia
+img = sepia("cat.jpg")
+img.save("out1.jpg")
+
+from ossimg.proc import rotate
+img = rotate("cat.jpg", 45)
+img.save("out2.jpg")
+
+
+
+
 📂 Project Structure (폴더 구조)
 오픈소스 표준 구조를 준수합니다.
 
