@@ -11,7 +11,7 @@
 
 ## ✨ Features (주요 기능)
 
-이 라이브러리는 이미지 처리를 위한 5가지 핵심 기능을 제공합니다.
+이 라이브러리는 이미지 처리를 위한 7가지 핵심 기능을 제공합니다.
 
 | 기능 (Function) | 설명 (Description) | 비고 |
 | :--- | :--- | :--- |
@@ -20,6 +20,8 @@
 | **Resize** | 이미지 화질 저하를 최소화하며 크기를 조절합니다. | LANCZOS 알고리즘 |
 | **Mosaic** | 개인정보 보호를 위해 이미지를 모자이크 처리합니다. | Privacy 보호 |
 | **Sketch** | 이미지의 윤곽선을 추출하여 스케치 효과를 냅니다. | Edge Detection |
+| **Enhance_image** | 이미지의 밝기와 대비를 조절해 더 선명하게 보정합니다. | Brightness & Contrast Adjustment |
+| **Watermark** | 이미지 위에 텍스트를 반투명하게 삽입합니다. | 저작권 보호 / Branding |
 | **Rotate** | 이미지를 원하는 각도로 회전합니다. | Image Rotation |
 
 ---
